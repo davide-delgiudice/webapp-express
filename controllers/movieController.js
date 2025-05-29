@@ -4,8 +4,18 @@ const connection = require('../data/db');
 const index = (req, res) => {
     connection.query("SELECT * FROM movies", (err, results) => {
         if(err) return res.status(500).json({error: "Database query failed: "+err});
-      
-        res.json(results);
+        
+        // ciclo l'array risultante per andare a sovrascrivere la proprietà image
+        const movies = results.map((movieImage) => {
+            const obj = {
+                ...movieImage,
+                image: req.imagePath + movieImage.image
+            }
+
+            return obj;
+        });
+
+        res.json(movies);
     })
 };
 
