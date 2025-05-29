@@ -28,4 +28,4 @@ Inserire un middleware per la gestione errori
 
 Creare un middleware per le immagini
 
-Mostrare la media delle recensioni nel dettaglio del libro
+Mostrare la media delle recensioni nel dettaglio del film
