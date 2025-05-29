@@ -1,7 +1,13 @@
 const express = require('express');
 
 const app = express();
-const port = 3000;
+
+// importo dotenv
+const dotenv = require('dotenv');
+// utilizziamo la variabile dotenv richiamando il suo metodo confg()
+dotenv.config();
+
+const port = process.env.SERVER_PORT || 3000;
 
 app.use(express.json());
 
