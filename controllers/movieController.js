@@ -16,9 +16,10 @@ const show = (req, res) => {
 
     // query per recuperare il film con il rispettivo ID
     const movieSql = `
-        SELECT *
-        FROM movies
-        WHERE id = ?
+        SELECT M.*, ROUND(AVG(R.vote)) AS average_vote
+        FROM movies M
+        JOIN reviews R ON R.movie_id = M.id
+        WHERE M.id = ?
     `;
 
     // query per recuperare le recensioni del film selezionato
@@ -46,7 +47,11 @@ const show = (req, res) => {
                 return res.status(500).json({error: "Database query failed: "+err})
             };
 
+            // aggiungo le recensioni per il singolo libro
             movie.reviews = reviewResult;
+
+            // aggiungo la media per il singolo libro
+            movie.average_vote = parseInt(movie.average_vote);
 
             res.json(movie);
         });
