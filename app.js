@@ -1,5 +1,7 @@
 const express = require('express');
 
+const imagePathMiddleware = require('./middlewares/imagePath')
+
 const app = express();
 
 // importo dotenv
@@ -11,6 +13,7 @@ const port = process.env.SERVER_PORT || 3000;
 
 const movieRouter = require('./routers/movie');
 
+app.use(imagePathMiddleware);
 
 app.use(express.json());
 
