@@ -11,4 +11,4 @@ router.get('/', movieController.index);
 router.get('/:id', movieController.show);
 
 
-module.export = router;
+module.exports = router;
