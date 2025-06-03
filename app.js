@@ -16,6 +16,8 @@ const port = process.env.SERVER_PORT || 3000;
 
 const movieRouter = require('./routers/movie');
 
+app.use(express.static('public'));
+
 // uso il middleware per il CORS
 app.use(cors({ origin: process.env.FE_APP }));
 
