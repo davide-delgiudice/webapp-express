@@ -51,6 +51,8 @@ const show = (req, res) => {
         // recupero il film in posizione 0
         const movie = moviesResult[0];
 
+        movie.image = req.imagePath + movie.image;
+
         // eseguo la seconda query
         connection.query(reviewSql, [id], (err, reviewResult) => {
             if(err) {
