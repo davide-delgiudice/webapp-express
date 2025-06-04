@@ -4,6 +4,8 @@ const imagePathMiddleware = require('./middlewares/imagePath')
 
 const app = express();
 
+app.use(express.json());
+
 // importo il pacchetto cors
 const cors = require('cors');
 
@@ -22,8 +24,6 @@ app.use(express.static('public'));
 app.use(cors({ origin: process.env.FE_APP }));
 
 app.use(imagePathMiddleware);
-
-app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("Benvenuto su Movies Express!")

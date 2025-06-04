@@ -3,8 +3,8 @@ const connection = require('../data/db');
 // metodo index del controller
 const index = (req, res) => {
     connection.query("SELECT * FROM movies", (err, results) => {
-        if(err) return res.status(500).json({error: "Database query failed: "+err});
-        
+        if (err) return res.status(500).json({ error: "Database query failed: " + err });
+
         // ciclo l'array risultante per andare a sovrascrivere la proprietà image
         const movies = results.map((movieImage) => {
             const obj = {
@@ -33,7 +33,7 @@ const show = (req, res) => {
     `;
 
     // query per recuperare le recensioni del film selezionato
-    const reviewSql =`
+    const reviewSql = `
         SELECT *
         FROM reviews
         WHERE movie_id = ?
@@ -41,12 +41,12 @@ const show = (req, res) => {
 
     // eseguo la prima query
     connection.query(movieSql, [id], (err, moviesResult) => {
-        if(err) {
-            return res.status(500).json({error: "Database query failed: "+err})
+        if (err) {
+            return res.status(500).json({ error: "Database query failed: " + err })
         };
 
         // controllo se il film esiste
-        if(moviesResult.length === 0) return res.status(404).json({error: "Movie not found"});
+        if (moviesResult.length === 0) return res.status(404).json({ error: "Movie not found" });
 
         // recupero il film in posizione 0
         const movie = moviesResult[0];
@@ -55,8 +55,8 @@ const show = (req, res) => {
 
         // eseguo la seconda query
         connection.query(reviewSql, [id], (err, reviewResult) => {
-            if(err) {
-                return res.status(500).json({error: "Database query failed: "+err})
+            if (err) {
+                return res.status(500).json({ error: "Database query failed: " + err })
             };
 
             // aggiungo le recensioni per il singolo libro
@@ -72,14 +72,28 @@ const show = (req, res) => {
 
 // definisco il metodo dello storeReview
 const storeReview = (req, res) => {
+    console.log("BODY:", req.body);
     // recupero il parametro id
-    const { id } = req.params
+    const { id } = req.params;
 
     // recupero i dati del body
     const { text, vote, name } = req.body;
 
     // preparo la query
-    const newReviewSql = `INSERT INTO reviews VALUES(?,?,?,?)`;
+    const newReviewSql =`
+    INSERT 
+    INTO reviews (text, vote, name, movie_id)
+    VALUES(?,?,?,?)
+    `;
+
+    // eseguo la query per le nuove review
+    connection.query(newReviewSql, [text, vote, name, id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: "Database query failed: " + err});
+        };
+
+        res.status(201).json({ message: "Recensione aggiunta", id: result.insertId});
+    })
 };
 
 
