@@ -70,7 +70,11 @@ const show = (req, res) => {
     });
 };
 
+const storeReview = (req, res) => {
+    const { id } = req.params
+};
+
 
 module.exports = {
-    index, show
+    index, show, storeReview
 };
