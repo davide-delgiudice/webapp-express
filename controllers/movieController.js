@@ -70,8 +70,16 @@ const show = (req, res) => {
     });
 };
 
+// definisco il metodo dello storeReview
 const storeReview = (req, res) => {
+    // recupero il parametro id
     const { id } = req.params
+
+    // recupero i dati del body
+    const { text, vote, name } = req.body;
+
+    // preparo la query
+    const newReviewSql = `INSERT INTO reviews VALUES(?,?,?,?)`;
 };
 
 
